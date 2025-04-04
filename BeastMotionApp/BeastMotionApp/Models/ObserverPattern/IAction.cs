@@ -1,4 +1,4 @@
-namespace BeastMotionApp.Models;
+namespace BeastMotionApp.Models.ObserverPattern;
 
 public interface IAction
 {

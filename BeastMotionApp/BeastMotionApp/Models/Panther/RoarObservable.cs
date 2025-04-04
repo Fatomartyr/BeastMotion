@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using BeastMotionApp.Models.ObserverPattern;
 
-namespace BeastMotionApp.Models;
+namespace BeastMotionApp.Models.Panther;
 
 public class RoarObservable : IObservable
 {

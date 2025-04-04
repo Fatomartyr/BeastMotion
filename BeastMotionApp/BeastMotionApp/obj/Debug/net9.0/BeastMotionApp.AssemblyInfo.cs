@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BeastMotionApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8feb46586c240bce6752290feeb8c2ae5015eae2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+506d331e219559571cb86e167b1836018ccd3100")]
 [assembly: System.Reflection.AssemblyProductAttribute("BeastMotionApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BeastMotionApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

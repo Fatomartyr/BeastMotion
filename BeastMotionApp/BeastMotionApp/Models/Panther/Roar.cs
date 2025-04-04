@@ -1,4 +1,6 @@
-namespace BeastMotionApp.Models;
+using BeastMotionApp.Models.ObserverPattern;
+
+namespace BeastMotionApp.Models.Panther;
 
 public class Roar : IAction
 {
