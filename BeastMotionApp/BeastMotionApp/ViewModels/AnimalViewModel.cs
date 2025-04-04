@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using BeastMotionApp.Models;
 using BeastMotionApp.Models.Dog;
 using BeastMotionApp.Models.ObserverPattern;
@@ -12,11 +14,34 @@ namespace BeastMotionApp.ViewModels
         private string _actionStatus;
         private double _speed;
 
+        private bool _canBark;
+        private bool _canRoar;
+        private bool _canClimbTree;
+        
+        public bool CanBark
+        {
+            get => _canBark;
+            set => SetProperty(ref _canBark, value);
+        }
+
+        public bool CanRoar
+        {
+            get => _canRoar;
+            set => SetProperty(ref _canRoar, value);
+        }
+
+        public bool CanClimbTree
+        {
+            get => _canClimbTree;
+            set => SetProperty(ref _canClimbTree, value);
+        }
+
+        
         public string ActionStatus
         {
             get => _actionStatus;
             set => SetProperty(ref _actionStatus, value);
-        }
+        }   
         
         public double Speed
         {
@@ -26,15 +51,17 @@ namespace BeastMotionApp.ViewModels
 
         public IRelayCommand MoveCommand { get; }
         public IRelayCommand StopCommand { get; }
-        public IRelayCommand ActionCommand { get; }
+        public IRelayCommand BarkCommand { get; }
+        public IRelayCommand RoarCommand { get; }
+        public IRelayCommand ClimbTreeCommand { get; }
 
-        private readonly IObservable _observable;
         private readonly LivingCreature _creature;
+        private readonly List<IObservable> _observables;
 
-        public AnimalViewModel(LivingCreature creature, IObservable observable)
+        public AnimalViewModel(LivingCreature creature,  List<IObservable> observables)
         {
             _creature = creature;
-            _observable = observable;
+            _observables = observables ?? new List<IObservable>();
             Speed = creature.Speed;
             
             MoveCommand = new RelayCommand(() =>
@@ -48,30 +75,44 @@ namespace BeastMotionApp.ViewModels
             {
                 _creature.Stop();
                 Speed = _creature.Speed;
-                ActionStatus = $"{_creature.GetType().Name} stopped. Speed: {Speed}";
+                ActionStatus = $"{_creature.GetType().Name} is slowing down. Speed: {Speed}";
             });
 
-            ActionCommand = new RelayCommand(() =>
+            BarkCommand = new RelayCommand(() =>
             {
-                IAction action = null;
-                if (_observable is BarkObservable)
+                var barkObservable = _observables.OfType<BarkObservable>().FirstOrDefault();
+                if (barkObservable != null)
                 {
-                    action = new Bark();
+                    var bark = new Bark();
+                    barkObservable.NotifyObservers(bark);
+                    ActionStatus = bark.Content;
                 }
-                else if (_observable is RoarObservable)
+            });        
+    
+            RoarCommand = new RelayCommand(() =>
+            {
+                var roarObservable = _observables.OfType<RoarObservable>().FirstOrDefault();
+                if (roarObservable != null)
                 {
-                    action = new Roar();
-                }
-                else if (_observable is ClimbTreeObservable)
-                {
-                    action = new ClimbTree();
-                }
-                if (action != null)
-                {
-                    _observable.NotifyObservers(action);
-                    ActionStatus = action.Content;
+                    var roar = new Roar();
+                    roarObservable.NotifyObservers(roar);
+                    ActionStatus = roar.Content;
                 }
             });
+
+            ClimbTreeCommand = new RelayCommand(() =>
+            {
+                var climbTreeObservable = _observables.OfType<ClimbTreeObservable>().FirstOrDefault();
+                if (climbTreeObservable != null)
+                {
+                    var climbTree = new ClimbTree();
+                    climbTreeObservable.NotifyObservers(climbTree);
+                    ActionStatus = climbTree.Content;
+                }
+            });
+            CanBark = _creature is Dog;
+            CanRoar = _creature is Panther; 
+            CanClimbTree = _creature is Panther;
         }
     }
 }

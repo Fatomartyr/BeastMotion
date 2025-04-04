@@ -1,5 +1,7 @@
-﻿using BeastMotionApp.Models;
+﻿using System.Collections.Generic;
+using BeastMotionApp.Models;
 using BeastMotionApp.Models.Dog;
+using BeastMotionApp.Models.ObserverPattern;
 using BeastMotionApp.Models.Panther;
 using BeastMotionApp.Models.Turtle;
 
@@ -15,19 +17,18 @@ public partial class MainWindowViewModel : ViewModelBase
     private RoarObservable _pantherRoarObservable = new RoarObservable();
     private ClimbTreeObservable _pantherClimbTreeObservable = new ClimbTreeObservable(); 
 
-    private  AnimalViewModel DogViewModel { get; }
-    private  AnimalViewModel PantherViewModel { get; }
-    private  AnimalViewModel PantherClimbTreeViewModel { get; }
-    private  AnimalViewModel TurtleViewModel { get; }
+    public AnimalViewModel DogViewModel { get; }
+    public AnimalViewModel PantherViewModel { get; }
+    public AnimalViewModel TurtleViewModel { get; }
     
     public MainWindowViewModel()
     {
         _dog.InitializeSpeed(5);
         _panther.InitializeSpeed(25); 
         _turtle.InitializeSpeed(0);
-        DogViewModel = new AnimalViewModel(_dog, _dogBarkObservable); 
-        PantherViewModel = new AnimalViewModel(_panther, _pantherRoarObservable); 
-        PantherClimbTreeViewModel = new AnimalViewModel(_panther, _pantherClimbTreeObservable); 
-        TurtleViewModel = new AnimalViewModel(_turtle, null);
+        DogViewModel = new AnimalViewModel(_dog, new List<IObservable> { _dogBarkObservable });
+        PantherViewModel = new AnimalViewModel(_panther, new List<IObservable>
+                            { _pantherRoarObservable, _pantherClimbTreeObservable });
+        TurtleViewModel = new AnimalViewModel(_turtle, new List<IObservable>());
     }
 }

@@ -10,12 +10,12 @@ public class Dog : LivingCreature
     
     public override void Move()
     {
-        Speed = Math.Min(Speed + 10, 44);
+        Speed = Math.Min(Speed + 6, 44);
     }
 
     public override void Stop()
     {
-        Speed = Math.Max(Speed - 10, 0);
+        Speed = Math.Max(Speed - 6, 0);
     }
     
 }

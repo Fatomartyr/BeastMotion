@@ -1,0 +1,25 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:BeastMotionApp.ViewModels"
+             x:Class="BeastMotionApp.Views.AnimalView"
+             x:DataType="vm:AnimalViewModel">
+    
+   
+
+    <StackPanel Spacing="10">
+        <TextBlock Text="{Binding ActionStatus}" FontSize="16" FontWeight="Bold"/>
+        <TextBlock Text="Speed:" FontSize="14"/>
+        <TextBlock Text="{Binding Speed}" FontSize="14"/>
+
+        <Button Content="Move" Command="{Binding MoveCommand}"/>
+        <Button Content="Stop" Command="{Binding StopCommand}"/>
+        <Button Content="Bark" Command="{Binding BarkCommand}" 
+                IsVisible="{Binding CanBark}"/>
+        <Button Content="Roar" Command="{Binding RoarCommand}"
+                IsVisible="{Binding CanRoar}"/>
+        <Button Content="Climb Tree" Command="{Binding ClimbTreeCommand}"
+                IsVisible="{Binding CanClimbTree}"/>
+        
+    </StackPanel>
+
+</UserControl>
